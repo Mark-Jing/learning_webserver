@@ -3,9 +3,11 @@
 #include <string.h>
 #include <unistd.h>
 
+int value = 10;
 void * callback(void * arg) {
     printf("thread id : %ld\n", pthread_self());
-    return NULL;
+    sleep(2);
+    pthread_exit((void *)(&value));
 }
 
 int main() {
@@ -23,9 +25,16 @@ int main() {
         printf("%d\n", i);
     }
 
+    int* ret_val;
+    int sta = pthread_join(tid, (void **)(&ret_val));
+
+    printf("return value is %d\n", *ret_val);
+    if(sta != 0) {
+        char * errstr = strerror(sta);
+        printf("pthread_join error: %s\n", errstr);
+    } 
+
     pthread_exit(NULL);
-    
-    printf("this is after exit!!!\n");
 
     return 0;   // exit(0);
 }

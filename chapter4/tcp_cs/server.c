@@ -2,6 +2,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 
 int main() {
     int listen_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -40,7 +41,7 @@ int main() {
     printf("client ip is %s, client port is %d\n", clientIP, clientport);
 
     char recvBuf[1024] = {0};
-    int len = read(client_fd, recvBuf, sizeof(recvBuf));
+    len = read(client_fd, recvBuf, sizeof(recvBuf));
     if(len < 0) {
         perror("read");
         exit(-1);
